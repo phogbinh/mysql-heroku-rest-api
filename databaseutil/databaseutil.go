@@ -44,6 +44,11 @@ func (status Status) setStatus(httpStatusCode int, errorMessage string) {
 	status.errorMessage = errorMessage
 }
 
+func CreateDatabaseUsersTableIfNotExists(databasePtr *sql.DB) error {
+	_, createTableError := databasePtr.Exec("CREATE TABLE IF NOT EXISTS users (" + userNameAttribute + " VARCHAR(255) PRIMARY KEY, " + userPasswordAttribute + " VARCHAR(255) NOT NULL)")
+	return createTableError
+}
+
 func ReturnJsonOfAllUsersFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		users, status := getAllUsersFromDatabaseUsersTable(databasePtr)

@@ -25,6 +25,10 @@ func main() {
 	}
 	databasePtr := getDatabaseHandler()
 	defer databasePtr.Close()
+	createTableError := databaseutil.CreateDatabaseUsersTableIfNotExists(databasePtr)
+	if createTableError != nil {
+		log.Fatalf("Error creating database table: %q.", createTableError)
+	}
 	router := gin.Default()
 	initializeRouterHandlers(router, databasePtr)
 	router.Run(symbolutil.Colon + port)
