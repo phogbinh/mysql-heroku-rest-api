@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/phogbinh/mysql-heroku-rest-api/databaseutil"
 	"github.com/phogbinh/mysql-heroku-rest-api/symbolutil"
@@ -31,6 +32,7 @@ func main() {
 	}
 	router := gin.Default()
 	initializeRouterHandlers(router, databasePtr)
+	router.Use(cors.Default())
 	router.Run(symbolutil.Colon + port)
 }
 
