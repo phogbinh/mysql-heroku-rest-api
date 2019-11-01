@@ -41,3 +41,6 @@ Delete an user by the user name.
 Returns an JSON of the user name.
 #### Example
 `curl -X DELETE https://powerful-reaches-73385.herokuapp.com/users/bill`
+
+## [Solutions for Known Errors](/docs/solutions-for-known-errors.md)
+A documentation describing solutions for known errors.
