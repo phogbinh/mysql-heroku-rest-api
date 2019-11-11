@@ -47,6 +47,7 @@ func CreateDatabaseUsersTableIfNotExists(databasePtr *sql.DB) error {
 	return createTableError
 }
 
+// ResponseJsonOfAllUsersFromDatabaseUsersTable responses to the client the json of all users from the database table 'users'.
 func ResponseJsonOfAllUsersFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		users, status := getAllUsersFromDatabaseUsersTable(databasePtr)
