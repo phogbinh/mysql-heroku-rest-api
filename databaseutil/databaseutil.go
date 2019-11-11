@@ -213,7 +213,7 @@ func updateUserPasswordToDatabaseUsersTable(userOfNewPassword User, databasePtr 
 		errorMessage:   ""}
 }
 
-func DeleteAndReturnJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
+func DeleteAndResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		userName := context.Param(userNameColumnName)
 		deleteUserFromDatabaseUsersTable(userName, databasePtr)
