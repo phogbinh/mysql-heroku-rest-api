@@ -29,16 +29,19 @@ const (
 	errorDeleteUserFromDatabaseUsersTable              = errorText + "deleting user to" + errorDatabaseTableText + symbolutil.Colon
 )
 
+// An User represents an user tuple in the database table 'users'.
 type User struct {
 	Name     string `json:"name" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
 
+// A Status contains an http status code and its associated error message.
 type Status struct {
 	httpStatusCode int
 	errorMessage   string
 }
 
+// CreateDatabaseUsersTableIfNotExists creates a table named 'users' for the given database pointer if the table has not already existed.
 func CreateDatabaseUsersTableIfNotExists(databasePtr *sql.DB) error {
 	_, createTableError := databasePtr.Exec("CREATE TABLE IF NOT EXISTS users (" + userNameAttribute + " VARCHAR(255) PRIMARY KEY, " + userPasswordAttribute + " VARCHAR(255) NOT NULL)")
 	return createTableError
