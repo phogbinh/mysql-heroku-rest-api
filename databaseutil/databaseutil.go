@@ -61,16 +61,16 @@ func ResponseJsonOfAllUsersFromDatabaseUsersTable(databasePtr *sql.DB) gin.Handl
 
 func getAllUsersFromDatabaseUsersTable(databasePtr *sql.DB) ([]User, Status) {
 	var users []User
-	selectRows, selectError := databasePtr.Query("SELECT * FROM " + DatabaseUsersTableName)
+	selectRowsPtr, selectError := databasePtr.Query("SELECT * FROM " + DatabaseUsersTableName)
 	if selectError != nil {
 		return nil, Status{
 			httpStatusCode: http.StatusInternalServerError,
 			errorMessage:   errorSelectGetAllUsersFromDatabaseUsersTable + selectError.Error()}
 	}
-	defer selectRows.Close()
-	for selectRows.Next() {
+	defer selectRowsPtr.Close()
+	for selectRowsPtr.Next() {
 		var user User
-		scanError := selectRows.Scan(&user.Name, &user.Password)
+		scanError := selectRowsPtr.Scan(&user.Name, &user.Password)
 		if scanError != nil {
 			return nil, Status{
 				httpStatusCode: http.StatusInternalServerError,
