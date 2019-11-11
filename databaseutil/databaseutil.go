@@ -14,6 +14,7 @@ const (
 	userNameColumnName     = "name"
 	userPasswordColumnName = "password"
 	// Errors
+	noError                                               = ""
 	errorText                                             = "Error "
 	errorDatabaseTableText                                = " the database table " + DatabaseUsersTableName
 	errorSelectGetAllUsersFromDatabaseUsersTable          = errorText + "selecting all users from" + errorDatabaseTableText + symbolutil.Colon
@@ -84,7 +85,7 @@ func getAllUsers(databaseUsersTableRowsPtr *sql.Rows) ([]User, Status) {
 	}
 	return users, Status{
 		httpStatusCode: http.StatusOK,
-		errorMessage:   ""}
+		errorMessage:   noError}
 }
 
 // CreateUserToDatabaseUsersTableAndResponseJsonOfUser creates the user given in the context to the database table 'users'.
@@ -115,7 +116,7 @@ func getUserFromContext(context *gin.Context) (User, Status) {
 	}
 	return user, Status{
 		httpStatusCode: http.StatusOK,
-		errorMessage:   ""}
+		errorMessage:   noError}
 }
 
 func insertUserToDatabaseUsersTable(user User, databasePtr *sql.DB) Status {
@@ -133,7 +134,7 @@ func insertUserToDatabaseUsersTable(user User, databasePtr *sql.DB) Status {
 	}
 	return Status{
 		httpStatusCode: http.StatusOK,
-		errorMessage:   ""}
+		errorMessage:   noError}
 }
 
 // ResponseJsonOfUserFromDatabaseUsersTable responses to the client the json of the user given in the context parameter from the database table 'users'.
@@ -169,7 +170,7 @@ func getUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) (User, 
 	}
 	return users[0], Status{
 		httpStatusCode: http.StatusOK,
-		errorMessage:   ""}
+		errorMessage:   noError}
 }
 
 // UpdateUserPasswordInDatabaseUsersTableAndResponseJsonOfUser updates the password of the user in the database table 'users' whose name is given in the context parameter and the requested JSON object.
@@ -210,7 +211,7 @@ func updateUserPasswordToDatabaseUsersTable(userOfNewPassword User, databasePtr 
 	}
 	return Status{
 		httpStatusCode: http.StatusOK,
-		errorMessage:   ""}
+		errorMessage:   noError}
 }
 
 // DeleteUserFromDatabaseUsersTableAndResponseJsonOfUserName deletes the user whose name is given in the context parameter from the database table 'users'.
@@ -242,5 +243,5 @@ func deleteUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) Stat
 	}
 	return Status{
 		httpStatusCode: http.StatusOK,
-		errorMessage:   ""}
+		errorMessage:   noError}
 }
