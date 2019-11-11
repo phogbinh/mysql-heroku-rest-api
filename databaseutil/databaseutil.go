@@ -218,7 +218,11 @@ func updateUserPasswordToDatabaseUsersTable(userOfNewPassword User, databasePtr 
 func DeleteUserFromDatabaseUsersTableAndResponseJsonOfUserName(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		userName := context.Param(userNameColumnName)
-		deleteUserFromDatabaseUsersTable(userName, databasePtr)
+		deleteStatus := deleteUserFromDatabaseUsersTable(userName, databasePtr)
+		if deleteStatus.httpStatusCode != http.StatusOK {
+			context.String(deleteStatus.httpStatusCode, deleteStatus.errorMessage)
+			return
+		}
 		context.JSON(http.StatusOK, gin.H{userNameColumnName: userName})
 	}
 }
