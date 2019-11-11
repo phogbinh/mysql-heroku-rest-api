@@ -150,25 +150,24 @@ func ResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFu
 }
 
 func getUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) (User, Status) {
-	var user User
+	var dumpUser User
 	selectRows, selectError := databasePtr.Query("SELECT * FROM "+DatabaseUsersTableName+" WHERE "+userNameAttribute+" = ?", userName)
 	if selectError != nil {
-		return user, Status{
+		return dumpUser, Status{
 			httpStatusCode: http.StatusInternalServerError,
 			errorMessage:   errorSelectGetUserFromDatabaseUsersTable + selectError.Error()}
 	}
 	defer selectRows.Close()
 	users, getStatus := getAllUsers(selectRows)
 	if getStatus.httpStatusCode != http.StatusOK {
-		return user, getStatus
+		return dumpUser, getStatus
 	}
 	if len(users) != 1 {
-		return user, Status{
+		return dumpUser, Status{
 			httpStatusCode: http.StatusInternalServerError,
 			errorMessage:   errorGetManyUsersGetUserFromDatabaseUsersTable}
 	}
-	user = users[0]
-	return user, Status{
+	return users[0], Status{
 		httpStatusCode: http.StatusOK,
 		errorMessage:   ""}
 }
