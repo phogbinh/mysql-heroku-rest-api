@@ -219,7 +219,7 @@ func DeleteUserFromDatabaseUsersTableAndResponseJsonOfUserName(databasePtr *sql.
 	return func(context *gin.Context) {
 		userName := context.Param(userNameColumnName)
 		deleteUserFromDatabaseUsersTable(userName, databasePtr)
-		context.JSON(http.StatusOK, gin.H{"name": userName})
+		context.JSON(http.StatusOK, gin.H{userNameColumnName: userName})
 	}
 }
 
