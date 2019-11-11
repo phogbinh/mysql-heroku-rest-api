@@ -119,13 +119,13 @@ func getUserFromContext(context *gin.Context) (User, Status) {
 }
 
 func insertUserToDatabaseUsersTable(user User, databasePtr *sql.DB) Status {
-	preparedStatement, prepareError := databasePtr.Prepare("INSERT INTO " + DatabaseUsersTableName + " VALUES(?, ?)")
+	preparedStatementPtr, prepareError := databasePtr.Prepare("INSERT INTO " + DatabaseUsersTableName + " VALUES(?, ?)")
 	if prepareError != nil {
 		return Status{
 			httpStatusCode: http.StatusInternalServerError,
 			errorMessage:   errorPrepareInsertUserToDatabaseUsersTable + prepareError.Error()}
 	}
-	_, insertError := preparedStatement.Exec(user.Name, user.Password)
+	_, insertError := preparedStatementPtr.Exec(user.Name, user.Password)
 	if insertError != nil {
 		return Status{
 			httpStatusCode: http.StatusInternalServerError,
@@ -151,14 +151,14 @@ func ResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFu
 
 func getUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) (User, Status) {
 	var dumpUser User
-	selectRows, selectError := databasePtr.Query("SELECT * FROM "+DatabaseUsersTableName+" WHERE "+userNameColumnName+" = ?", userName)
+	selectRowsPtr, selectError := databasePtr.Query("SELECT * FROM "+DatabaseUsersTableName+" WHERE "+userNameColumnName+" = ?", userName)
 	if selectError != nil {
 		return dumpUser, Status{
 			httpStatusCode: http.StatusInternalServerError,
 			errorMessage:   errorSelectGetUserFromDatabaseUsersTable + selectError.Error()}
 	}
-	defer selectRows.Close()
-	users, getStatus := getAllUsers(selectRows)
+	defer selectRowsPtr.Close()
+	users, getStatus := getAllUsers(selectRowsPtr)
 	if getStatus.httpStatusCode != http.StatusOK {
 		return dumpUser, getStatus
 	}
@@ -196,13 +196,13 @@ func UpdateUserPasswordInDatabaseUsersTableAndResponseJsonOfUser(databasePtr *sq
 }
 
 func updateUserPasswordToDatabaseUsersTable(userOfNewPassword User, databasePtr *sql.DB) Status {
-	preparedStatement, prepareError := databasePtr.Prepare("UPDATE " + DatabaseUsersTableName + " SET " + userPasswordColumnName + " = ? WHERE " + userNameColumnName + " = ?")
+	preparedStatementPtr, prepareError := databasePtr.Prepare("UPDATE " + DatabaseUsersTableName + " SET " + userPasswordColumnName + " = ? WHERE " + userNameColumnName + " = ?")
 	if prepareError != nil {
 		return Status{
 			httpStatusCode: http.StatusInternalServerError,
 			errorMessage:   errorPrepareUpdateUserPasswordToDatabaseUsersTable + prepareError.Error()}
 	}
-	_, updateError := preparedStatement.Exec(userOfNewPassword.Password, userOfNewPassword.Name)
+	_, updateError := preparedStatementPtr.Exec(userOfNewPassword.Password, userOfNewPassword.Name)
 	if updateError != nil {
 		return Status{
 			httpStatusCode: http.StatusInternalServerError,
@@ -228,13 +228,13 @@ func DeleteUserFromDatabaseUsersTableAndResponseJsonOfUserName(databasePtr *sql.
 }
 
 func deleteUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) Status {
-	preparedStatement, prepareError := databasePtr.Prepare("DELETE FROM " + DatabaseUsersTableName + " WHERE " + userNameColumnName + " = ?")
+	preparedStatementPtr, prepareError := databasePtr.Prepare("DELETE FROM " + DatabaseUsersTableName + " WHERE " + userNameColumnName + " = ?")
 	if prepareError != nil {
 		return Status{
 			httpStatusCode: http.StatusInternalServerError,
 			errorMessage:   errorPrepareDeleteUserFromDatabaseUsersTable + prepareError.Error()}
 	}
-	_, deleteError := preparedStatement.Exec(userName)
+	_, deleteError := preparedStatementPtr.Exec(userName)
 	if deleteError != nil {
 		return Status{
 			httpStatusCode: http.StatusInternalServerError,
