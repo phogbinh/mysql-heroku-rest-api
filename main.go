@@ -59,7 +59,7 @@ func initializeRouterHandlers(router *gin.Engine, databasePtr *sql.DB) {
 
 	router.PUT(
 		symbolutil.RightSlash+databaseutil.DatabaseUsersTableName+symbolutil.RightSlash+userNamePath,
-		databaseutil.UpdatePasswordAndResponseJsonOfUserFromDatabaseUsersTable(databasePtr))
+		databaseutil.UpdateUserPasswordInDatabaseUsersTableAndResponseJsonOfUser(databasePtr))
 
 	router.DELETE(
 		symbolutil.RightSlash+databaseutil.DatabaseUsersTableName+symbolutil.RightSlash+userNamePath,
