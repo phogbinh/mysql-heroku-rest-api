@@ -87,7 +87,7 @@ func getAllUsers(databaseUsersTableRowsPtr *sql.Rows) ([]User, Status) {
 		errorMessage:   ""}
 }
 
-func CreateUserToDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
+func CreateUserToDatabaseUsersTableAndResponseJsonOfUser(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		user, getStatus := getUserFromContext(context)
 		if getStatus.httpStatusCode != http.StatusOK {
