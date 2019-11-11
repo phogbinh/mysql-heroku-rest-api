@@ -87,6 +87,8 @@ func getAllUsers(databaseUsersTableRowsPtr *sql.Rows) ([]User, Status) {
 		errorMessage:   ""}
 }
 
+// CreateUserToDatabaseUsersTableAndResponseJsonOfUser creates the user given in the context to the database table 'users'.
+// Also, it responses to the client the json of the given user.
 func CreateUserToDatabaseUsersTableAndResponseJsonOfUser(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		user, getStatus := getUserFromContext(context)
