@@ -175,21 +175,21 @@ func getUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) (User, 
 func UpdatePasswordAndResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		userName := context.Param(userNameAttribute)
-		userOfNewPassword, getStatus := getUserFromContext(context)
+		newPasswordUser, getStatus := getUserFromContext(context)
 		if getStatus.httpStatusCode != http.StatusOK {
 			context.String(getStatus.httpStatusCode, getStatus.errorMessage)
 			return
 		}
-		if userName != userOfNewPassword.Name {
-			context.String(http.StatusBadRequest, userName+" cannot change the password of "+userOfNewPassword.Name+".")
+		if userName != newPasswordUser.Name {
+			context.String(http.StatusBadRequest, userName+" cannot change the password of "+newPasswordUser.Name+".")
 			return
 		}
-		updateStatus := updateUserPasswordToDatabaseUsersTable(userOfNewPassword, databasePtr)
+		updateStatus := updateUserPasswordToDatabaseUsersTable(newPasswordUser, databasePtr)
 		if updateStatus.httpStatusCode != http.StatusOK {
 			context.String(updateStatus.httpStatusCode, updateStatus.errorMessage)
 			return
 		}
-		context.JSON(http.StatusOK, userOfNewPassword)
+		context.JSON(http.StatusOK, newPasswordUser)
 	}
 }
 
