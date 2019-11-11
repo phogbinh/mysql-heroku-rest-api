@@ -181,7 +181,7 @@ func UpdatePasswordAndResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.
 			return
 		}
 		if userName != newPasswordUser.Name {
-			context.String(http.StatusBadRequest, userName+" cannot change the password of "+newPasswordUser.Name+".")
+			context.String(http.StatusBadRequest, "The user name given in the context parameter - "+userName+" - does not match the user name provided by the requested JSON object - "+newPasswordUser.Name+".")
 			return
 		}
 		updateStatus := updateUserPasswordToDatabaseUsersTable(newPasswordUser, databasePtr)
