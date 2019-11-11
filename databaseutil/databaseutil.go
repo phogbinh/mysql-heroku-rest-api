@@ -22,6 +22,7 @@ const (
 	errorPrepareInsertUserToDatabaseUsersTable            = errorText + "preparing to insert user to" + errorDatabaseTableText + symbolutil.Colon
 	errorInsertUserToDatabaseUsersTable                   = errorText + "inserting user to" + errorDatabaseTableText + symbolutil.Colon
 	errorSelectGetUserFromDatabaseUsersTable              = errorText + "selecting an user from" + errorDatabaseTableText + symbolutil.Colon
+	errorGetManyUsersGetUserFromDatabaseUsersTable        = errorText + "want to get one but got many users from" + errorDatabaseTableText + symbolutil.Colon
 	errorPrepareUpdateUserPasswordToDatabaseUsersTable    = errorText + "preparing to update user password to" + errorDatabaseTableText + symbolutil.Colon
 	errorUpdateUserPasswordToDatabaseUsersTable           = errorText + "updating user password to" + errorDatabaseTableText + symbolutil.Colon
 	errorPrepareDeleteUserFromDatabaseUsersTable          = errorText + "preparing to delete user to" + errorDatabaseTableText + symbolutil.Colon
@@ -160,6 +161,11 @@ func getUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) (User, 
 	users, getStatus := getAllUsers(selectRows)
 	if getStatus.httpStatusCode != http.StatusOK {
 		return user, getStatus
+	}
+	if len(users) != 1 {
+		return user, Status{
+			httpStatusCode: http.StatusInternalServerError,
+			errorMessage:   errorGetManyUsersGetUserFromDatabaseUsersTable}
 	}
 	user = users[0]
 	return user, Status{
