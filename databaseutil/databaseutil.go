@@ -136,7 +136,7 @@ func insertUserToDatabaseUsersTable(user User, databasePtr *sql.DB) Status {
 		errorMessage:   ""}
 }
 
-// ResponseJsonOfUserFromDatabaseUsersTable responses to the client the json of the user given in the context parameter.
+// ResponseJsonOfUserFromDatabaseUsersTable responses to the client the json of the user given in the context parameter from the database table 'users'.
 func ResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		userName := context.Param(userNameColumnName)
@@ -172,7 +172,7 @@ func getUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) (User, 
 		errorMessage:   ""}
 }
 
-// UpdatePasswordAndResponseJsonOfUserFromDatabaseUsersTable updates the password of the user whose name is given in the context parameter and the requested JSON object.
+// UpdatePasswordAndResponseJsonOfUserFromDatabaseUsersTable updates the password of the user in the database table 'users' whose name is given in the context parameter and the requested JSON object.
 // Also, it responses to the client the json of the given user.
 func UpdatePasswordAndResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
@@ -213,7 +213,7 @@ func updateUserPasswordToDatabaseUsersTable(userOfNewPassword User, databasePtr 
 		errorMessage:   ""}
 }
 
-// DeleteAndResponseJsonOfUserFromDatabaseUsersTable deletes the user whose name is given in the context parameter.
+// DeleteAndResponseJsonOfUserFromDatabaseUsersTable deletes the user whose name is given in the context parameter from the database table 'users'.
 // Also, it responses to the client the json of the given user.
 func DeleteAndResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
