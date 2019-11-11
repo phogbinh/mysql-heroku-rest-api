@@ -172,6 +172,8 @@ func getUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) (User, 
 		errorMessage:   ""}
 }
 
+// UpdatePasswordAndResponseJsonOfUserFromDatabaseUsersTable updates the password of the user whose name is given in the context parameter and the requested JSON object.
+// Also, it responses to the client the json of the given user.
 func UpdatePasswordAndResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		userName := context.Param(userNameAttribute)
