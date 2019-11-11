@@ -213,6 +213,8 @@ func updateUserPasswordToDatabaseUsersTable(userOfNewPassword User, databasePtr 
 		errorMessage:   ""}
 }
 
+// DeleteAndResponseJsonOfUserFromDatabaseUsersTable deletes the user whose name is given in the context parameter.
+// Also, it responses to the client the json of the given user.
 func DeleteAndResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		userName := context.Param(userNameColumnName)
