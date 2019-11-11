@@ -55,7 +55,7 @@ func initializeRouterHandlers(router *gin.Engine, databasePtr *sql.DB) {
 
 	router.GET(
 		symbolutil.RightSlash+databaseutil.DatabaseUsersTableName+symbolutil.RightSlash+userNamePath,
-		databaseutil.ReturnJsonOfUserFromDatabaseUsersTable(databasePtr))
+		databaseutil.ResponseJsonOfUserFromDatabaseUsersTable(databasePtr))
 
 	router.PUT(
 		symbolutil.RightSlash+databaseutil.DatabaseUsersTableName+symbolutil.RightSlash+userNamePath,

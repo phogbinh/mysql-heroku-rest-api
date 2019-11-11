@@ -136,7 +136,8 @@ func insertUserToDatabaseUsersTable(user User, databasePtr *sql.DB) Status {
 		errorMessage:   ""}
 }
 
-func ReturnJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
+// ResponseJsonOfUserFromDatabaseUsersTable responses to the client the json of the user given in the context parameter.
+func ResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		userName := context.Param(userNameAttribute)
 		user, status := getUserFromDatabaseUsersTable(userName, databasePtr)
