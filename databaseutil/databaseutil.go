@@ -11,8 +11,8 @@ import (
 
 const (
 	DatabaseUsersTableName = "users"
-	userNameAttribute      = "name"
-	userPasswordAttribute  = "password"
+	userNameColumnName     = "name"
+	userPasswordColumnName = "password"
 	// Errors
 	errorText                                             = "Error "
 	errorDatabaseTableText                                = " the database table " + DatabaseUsersTableName
@@ -43,7 +43,7 @@ type Status struct {
 
 // CreateDatabaseUsersTableIfNotExists creates a table named 'users' for the given database pointer if the table has not already existed.
 func CreateDatabaseUsersTableIfNotExists(databasePtr *sql.DB) error {
-	_, createTableError := databasePtr.Exec("CREATE TABLE IF NOT EXISTS users (" + userNameAttribute + " VARCHAR(255) PRIMARY KEY, " + userPasswordAttribute + " VARCHAR(255) NOT NULL)")
+	_, createTableError := databasePtr.Exec("CREATE TABLE IF NOT EXISTS users (" + userNameColumnName + " VARCHAR(255) PRIMARY KEY, " + userPasswordColumnName + " VARCHAR(255) NOT NULL)")
 	return createTableError
 }
 
@@ -139,7 +139,7 @@ func insertUserToDatabaseUsersTable(user User, databasePtr *sql.DB) Status {
 // ResponseJsonOfUserFromDatabaseUsersTable responses to the client the json of the user given in the context parameter.
 func ResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
-		userName := context.Param(userNameAttribute)
+		userName := context.Param(userNameColumnName)
 		user, status := getUserFromDatabaseUsersTable(userName, databasePtr)
 		if status.httpStatusCode != http.StatusOK {
 			context.String(status.httpStatusCode, status.errorMessage)
@@ -151,7 +151,7 @@ func ResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFu
 
 func getUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) (User, Status) {
 	var dumpUser User
-	selectRows, selectError := databasePtr.Query("SELECT * FROM "+DatabaseUsersTableName+" WHERE "+userNameAttribute+" = ?", userName)
+	selectRows, selectError := databasePtr.Query("SELECT * FROM "+DatabaseUsersTableName+" WHERE "+userNameColumnName+" = ?", userName)
 	if selectError != nil {
 		return dumpUser, Status{
 			httpStatusCode: http.StatusInternalServerError,
@@ -176,7 +176,7 @@ func getUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) (User, 
 // Also, it responses to the client the json of the given user.
 func UpdatePasswordAndResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
-		userName := context.Param(userNameAttribute)
+		userName := context.Param(userNameColumnName)
 		newPasswordUser, getStatus := getUserFromContext(context)
 		if getStatus.httpStatusCode != http.StatusOK {
 			context.String(getStatus.httpStatusCode, getStatus.errorMessage)
@@ -196,7 +196,7 @@ func UpdatePasswordAndResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.
 }
 
 func updateUserPasswordToDatabaseUsersTable(userOfNewPassword User, databasePtr *sql.DB) Status {
-	preparedStatement, prepareError := databasePtr.Prepare("UPDATE " + DatabaseUsersTableName + " SET " + userPasswordAttribute + " = ? WHERE " + userNameAttribute + " = ?")
+	preparedStatement, prepareError := databasePtr.Prepare("UPDATE " + DatabaseUsersTableName + " SET " + userPasswordColumnName + " = ? WHERE " + userNameColumnName + " = ?")
 	if prepareError != nil {
 		return Status{
 			httpStatusCode: http.StatusInternalServerError,
@@ -215,14 +215,14 @@ func updateUserPasswordToDatabaseUsersTable(userOfNewPassword User, databasePtr 
 
 func DeleteAndReturnJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
-		userName := context.Param(userNameAttribute)
+		userName := context.Param(userNameColumnName)
 		deleteUserFromDatabaseUsersTable(userName, databasePtr)
 		context.JSON(http.StatusOK, gin.H{"name": userName})
 	}
 }
 
 func deleteUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) Status {
-	preparedStatement, prepareError := databasePtr.Prepare("DELETE FROM " + DatabaseUsersTableName + " WHERE " + userNameAttribute + " = ?")
+	preparedStatement, prepareError := databasePtr.Prepare("DELETE FROM " + DatabaseUsersTableName + " WHERE " + userNameColumnName + " = ?")
 	if prepareError != nil {
 		return Status{
 			httpStatusCode: http.StatusInternalServerError,
