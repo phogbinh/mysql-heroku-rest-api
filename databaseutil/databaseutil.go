@@ -158,14 +158,11 @@ func getUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) (User, 
 			errorMessage:   errorSelectGetUserFromDatabaseUsersTable + selectError.Error()}
 	}
 	defer selectRows.Close()
-	for selectRows.Next() {
-		scanError := selectRows.Scan(&user.Name, &user.Password)
-		if scanError != nil {
-			return user, Status{
-				httpStatusCode: http.StatusInternalServerError,
-				errorMessage:   errorScanGetUserFromDatabaseUsersTable + scanError.Error()}
-		}
+	users, getStatus := getAllUsers(selectRows)
+	if getStatus.httpStatusCode != http.StatusOK {
+		return user, getStatus
 	}
+	user = users[0]
 	return user, Status{
 		httpStatusCode: http.StatusOK,
 		errorMessage:   ""}
