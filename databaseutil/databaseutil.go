@@ -39,11 +39,6 @@ type Status struct {
 	errorMessage   string
 }
 
-func (status Status) setStatus(httpStatusCode int, errorMessage string) {
-	status.httpStatusCode = httpStatusCode
-	status.errorMessage = errorMessage
-}
-
 func CreateDatabaseUsersTableIfNotExists(databasePtr *sql.DB) error {
 	_, createTableError := databasePtr.Exec("CREATE TABLE IF NOT EXISTS users (" + userNameAttribute + " VARCHAR(255) PRIMARY KEY, " + userPasswordAttribute + " VARCHAR(255) NOT NULL)")
 	return createTableError
