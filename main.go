@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/phogbinh/mysql-heroku-rest-api/databaseutil"
 	"github.com/phogbinh/mysql-heroku-rest-api/symbolutil"
@@ -47,7 +47,7 @@ func getDatabaseHandler() *sql.DB {
 func initializeRouterHandlers(router *gin.Engine, databasePtr *sql.DB) {
 	router.GET(
 		symbolutil.RightSlash+databaseutil.DatabaseUsersTableName,
-		databaseutil.ReturnJsonOfAllUsersFromDatabaseUsersTable(databasePtr))
+		databaseutil.ResponseJsonOfAllUsersFromDatabaseUsersTable(databasePtr))
 
 	router.POST(
 		symbolutil.RightSlash+databaseutil.DatabaseUsersTableName,

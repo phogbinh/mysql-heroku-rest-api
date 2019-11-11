@@ -47,7 +47,7 @@ func CreateDatabaseUsersTableIfNotExists(databasePtr *sql.DB) error {
 	return createTableError
 }
 
-func ReturnJsonOfAllUsersFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
+func ResponseJsonOfAllUsersFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		users, status := getAllUsersFromDatabaseUsersTable(databasePtr)
 		if status.httpStatusCode != http.StatusOK {
