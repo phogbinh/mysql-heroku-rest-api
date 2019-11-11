@@ -172,7 +172,7 @@ func getUserFromDatabaseUsersTable(userName string, databasePtr *sql.DB) (User, 
 		errorMessage:   ""}
 }
 
-func UpdatePasswordAndReturnJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
+func UpdatePasswordAndResponseJsonOfUserFromDatabaseUsersTable(databasePtr *sql.DB) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		userName := context.Param(userNameAttribute)
 		userOfNewPassword, getStatus := getUserFromContext(context)
