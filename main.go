@@ -8,7 +8,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/phogbinh/mysql-heroku-rest-api/databaseutil"
+	"github.com/phogbinh/mysql-heroku-rest-api/databaseuserstableutil"
 	"github.com/phogbinh/mysql-heroku-rest-api/symbolutil"
 )
 
@@ -26,7 +26,7 @@ func main() {
 	}
 	databasePtr := getDatabaseHandler()
 	defer databasePtr.Close()
-	createTableError := databaseutil.CreateDatabaseUsersTableIfNotExists(databasePtr)
+	createTableError := databaseuserstableutil.CreateDatabaseUsersTableIfNotExists(databasePtr)
 	if createTableError != nil {
 		log.Fatalf("Error creating database table: %q.", createTableError)
 	}
@@ -46,22 +46,22 @@ func getDatabaseHandler() *sql.DB {
 
 func initializeRouterHandlers(router *gin.Engine, databasePtr *sql.DB) {
 	router.GET(
-		symbolutil.RightSlash+databaseutil.DatabaseUsersTableName,
-		databaseutil.ResponseJsonOfAllUsersFromDatabaseUsersTable(databasePtr))
+		symbolutil.RightSlash+databaseuserstableutil.DatabaseUsersTableName,
+		databaseuserstableutil.ResponseJsonOfAllUsersFromDatabaseUsersTable(databasePtr))
 
 	router.POST(
-		symbolutil.RightSlash+databaseutil.DatabaseUsersTableName,
-		databaseutil.CreateUserToDatabaseUsersTableAndResponseJsonOfUser(databasePtr))
+		symbolutil.RightSlash+databaseuserstableutil.DatabaseUsersTableName,
+		databaseuserstableutil.CreateUserToDatabaseUsersTableAndResponseJsonOfUser(databasePtr))
 
 	router.GET(
-		symbolutil.RightSlash+databaseutil.DatabaseUsersTableName+symbolutil.RightSlash+userNamePath,
-		databaseutil.ResponseJsonOfUserFromDatabaseUsersTable(databasePtr))
+		symbolutil.RightSlash+databaseuserstableutil.DatabaseUsersTableName+symbolutil.RightSlash+userNamePath,
+		databaseuserstableutil.ResponseJsonOfUserFromDatabaseUsersTable(databasePtr))
 
 	router.PUT(
-		symbolutil.RightSlash+databaseutil.DatabaseUsersTableName+symbolutil.RightSlash+userNamePath,
-		databaseutil.UpdateUserPasswordInDatabaseUsersTableAndResponseJsonOfUser(databasePtr))
+		symbolutil.RightSlash+databaseuserstableutil.DatabaseUsersTableName+symbolutil.RightSlash+userNamePath,
+		databaseuserstableutil.UpdateUserPasswordInDatabaseUsersTableAndResponseJsonOfUser(databasePtr))
 
 	router.DELETE(
-		symbolutil.RightSlash+databaseutil.DatabaseUsersTableName+symbolutil.RightSlash+userNamePath,
-		databaseutil.DeleteUserFromDatabaseUsersTableAndResponseJsonOfUserName(databasePtr))
+		symbolutil.RightSlash+databaseuserstableutil.DatabaseUsersTableName+symbolutil.RightSlash+userNamePath,
+		databaseuserstableutil.DeleteUserFromDatabaseUsersTableAndResponseJsonOfUserName(databasePtr))
 }

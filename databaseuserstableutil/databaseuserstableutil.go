@@ -1,4 +1,4 @@
-package databaseutil
+package databaseuserstableutil
 
 import (
 	"database/sql"
