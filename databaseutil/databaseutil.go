@@ -14,19 +14,19 @@ const (
 	userNameAttribute      = "name"
 	userPasswordAttribute  = "password"
 	// Errors
-	errorText                                          = "Error "
-	errorDatabaseTableText                             = " the database table " + DatabaseUsersTableName
-	errorSelectGetAllUsersFromDatabaseUsersTable       = errorText + "selecting all users from" + errorDatabaseTableText + symbolutil.Colon
-	errorScanGetAllUsersFromDatabaseUsersTable         = errorText + "scanning all users from" + errorDatabaseTableText + symbolutil.Colon
-	errorGetUserFromContext                            = errorText + "getting user from context" + symbolutil.Colon
-	errorPrepareInsertUserToDatabaseUsersTable         = errorText + "preparing to insert user to" + errorDatabaseTableText + symbolutil.Colon
-	errorInsertUserToDatabaseUsersTable                = errorText + "inserting user to" + errorDatabaseTableText + symbolutil.Colon
-	errorSelectGetUserFromDatabaseUsersTable           = errorText + "selecting an user from" + errorDatabaseTableText + symbolutil.Colon
-	errorScanGetUserFromDatabaseUsersTable             = errorText + "scanning an user from" + errorDatabaseTableText + symbolutil.Colon
-	errorPrepareUpdateUserPasswordToDatabaseUsersTable = errorText + "preparing to update user password to" + errorDatabaseTableText + symbolutil.Colon
-	errorUpdateUserPasswordToDatabaseUsersTable        = errorText + "updating user password to" + errorDatabaseTableText + symbolutil.Colon
-	errorPrepareDeleteUserFromDatabaseUsersTable       = errorText + "preparing to delete user to" + errorDatabaseTableText + symbolutil.Colon
-	errorDeleteUserFromDatabaseUsersTable              = errorText + "deleting user to" + errorDatabaseTableText + symbolutil.Colon
+	errorText                                             = "Error "
+	errorDatabaseTableText                                = " the database table " + DatabaseUsersTableName
+	errorSelectGetAllUsersFromDatabaseUsersTable          = errorText + "selecting all users from" + errorDatabaseTableText + symbolutil.Colon
+	errorScanGetAllUsersFromDatabaseUsersTableRowsPointer = errorText + "scanning all users from" + errorDatabaseTableText + "'s rows pointer" + symbolutil.Colon
+	errorGetUserFromContext                               = errorText + "getting user from context" + symbolutil.Colon
+	errorPrepareInsertUserToDatabaseUsersTable            = errorText + "preparing to insert user to" + errorDatabaseTableText + symbolutil.Colon
+	errorInsertUserToDatabaseUsersTable                   = errorText + "inserting user to" + errorDatabaseTableText + symbolutil.Colon
+	errorSelectGetUserFromDatabaseUsersTable              = errorText + "selecting an user from" + errorDatabaseTableText + symbolutil.Colon
+	errorScanGetUserFromDatabaseUsersTable                = errorText + "scanning an user from" + errorDatabaseTableText + symbolutil.Colon
+	errorPrepareUpdateUserPasswordToDatabaseUsersTable    = errorText + "preparing to update user password to" + errorDatabaseTableText + symbolutil.Colon
+	errorUpdateUserPasswordToDatabaseUsersTable           = errorText + "updating user password to" + errorDatabaseTableText + symbolutil.Colon
+	errorPrepareDeleteUserFromDatabaseUsersTable          = errorText + "preparing to delete user to" + errorDatabaseTableText + symbolutil.Colon
+	errorDeleteUserFromDatabaseUsersTable                 = errorText + "deleting user to" + errorDatabaseTableText + symbolutil.Colon
 )
 
 // An User represents an user tuple in the database table 'users'.
@@ -78,7 +78,7 @@ func getAllUsers(databaseUsersTableRowsPtr *sql.Rows) ([]User, Status) {
 		if scanError != nil {
 			return nil, Status{
 				httpStatusCode: http.StatusInternalServerError,
-				errorMessage:   errorScanGetAllUsersFromDatabaseUsersTable + scanError.Error()}
+				errorMessage:   errorScanGetAllUsersFromDatabaseUsersTableRowsPointer + scanError.Error()}
 		}
 		users = append(users, user)
 	}
