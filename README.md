@@ -1,5 +1,9 @@
 # mysql-heroku-rest-api
+## Description
 The project uses Go, Heroku with ClearDB (MySQL) to implement a back-end API managing a simple database table named `users`. It supports some basic RESTful APIs as described in the cURL API section below. The application URL can be found [here](https://powerful-reaches-73385.herokuapp.com).
+
+## Contributor
+* [phogbinh](https://github.com/phogbinh)
 
 ## cURL API
 ### Get all users
